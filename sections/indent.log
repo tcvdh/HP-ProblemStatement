@@ -1,0 +1,40 @@
+INFO:  latexindent version 3.24.4, 2024-07-18, a script to indent .tex files
+       latexindent lives here: /usr/share/texmf-dist/scripts/latexindent/
+       Mon Dec  8 22:18:09 2025
+       Filename: /home/tcvdh/Documents/HP-research/sections/abstract.tex
+INFO:  Processing switches:
+       -w|--overwrite: Overwrite mode active, will make a back up before overwriting
+       -l|--localSettings: Read localSettings YAML file
+       -m|--modifylinebreaks: modify line breaks
+INFO:  Directory for backup files and log file indent.log:
+       /home/tcvdh/Documents/HP-research/sections
+INFO:  YAML settings read: defaultSettings.yaml
+       Reading defaultSettings.yaml from /usr/share/texmf-dist/scripts/latexindent/defaultSettings.yaml
+INFO:  YAML reading settings
+       The config file in "/home/tcvdh/.config/latexindent/indentconfig.yaml" will be read
+WARN:  The paths field cannot be read from /home/tcvdh/.config/latexindent/indentconfig.yaml; this means it is either empty or contains invalid YAML
+       See https://latexindentpl.readthedocs.io/en/latest/sec-indent-config-and-settings.html for an example
+INFO:  YAML settings read: -l switch
+       Adding /home/tcvdh/.config/latexindent/indentconfig.yaml to YAML read paths
+INFO:  YAML settings, reading from the following files:
+       Reading USER settings from /home/tcvdh/.config/latexindent/indentconfig.yaml
+       ---
+       modifyLineBreaks:
+         preserveBlankLines: '1'
+         textWrapOptions:
+           columns: '100'
+           when: after
+
+INFO:  Backup procedure (-w flag active):
+       /home/tcvdh/Documents/HP-research/sections/abstract.bak0 already exists, incrementing by 1 (see maxNumberOfBackUps)
+       Backing up /home/tcvdh/Documents/HP-research/sections/abstract.tex to /home/tcvdh/Documents/HP-research/sections/abstract.bak1...
+       /home/tcvdh/Documents/HP-research/sections/abstract.tex will be overwritten after indentation
+INFO:  Phase 1: searching for objects
+INFO:  Phase 2: finding surrounding indentation
+INFO:  Phase 3: indenting objects
+INFO:  Phase 4: final indentation check
+INFO:  Output routine:
+       Overwriting file /home/tcvdh/Documents/HP-research/sections/abstract.tex
+       --------------
+INFO:  Please direct all communication/issues to:
+        https://github.com/cmhughes/latexindent.pl

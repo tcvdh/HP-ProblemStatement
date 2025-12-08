@@ -1,0 +1,5 @@
+modifyLineBreaks:
+  textWrapOptions:
+    columns: 100
+    when: after
+  preserveBlankLines: 1
