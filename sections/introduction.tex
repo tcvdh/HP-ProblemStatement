@@ -1,34 +1,103 @@
 
-\section{Introduction} \label{sec:introduction}
+\section{Introduction}
+Artificial Intelligence (AI) has shifted from a niche research field to a primary driver of global
+datacenter demand. This AI era has introduced a new class of workloads, like the training of Large
+Language Models (LLMs). These type of workloads are not short-lived inference tasks or traditional
+web services, but they are synchronous, monolithic, and resource-intensive training jobs that
+occupies thousands of GPUs for months at a time \cite{jiang2024megascalescalinglargelanguage,
+narayanan2021efficientlargescalelanguagemodel} . Estimating the carbon footprint of models like
+BLOOM reveals that training alone can emit over 50 tonnes of
+CO2\cite{luccioni2022estimatingcarbonfootprintbloom}. Efficiency in these systems is not just a
+performance metric, but a necessity for both financial and environmental sustainability. \medskip
+\\ Training is estimated to account for 10-40\% of the total energy consumed by an LLM in its
+lifetime\cite{Ji2026-gp}. This is substantial and optimizing this to reduce even a few percent
+would cut costs and emissions. Discrete-event simulators could get every bit of performance out of
+a system resulting into millions of dollars in operational savings and significant reduction in
+carbon emissions. These simulators Act as a critical lever in this optimization, enabling companies
+to identify these efficiency gains without the capital risk of physical experimentation.\medskip \\
+Datacenter configurations where all compute nodes (GPUs) are identical, an example being 1000
+NVIDIA H100s, is the current industrial standard for training Frontier Models to minimize the
+"straggler effect" and synchronization latency found in heterogeneous environments. Even in these
+heterogeneous clusters, there is still a lot of time lost on synchronization. A simple background
+process can stall thousands of others during gradient
+synchronization\cite{lin2025understandingstragglerslargemodel}. Optimizing LLM training is
+notoriously difficult because physical experimentation is expensive. Operators often over-provision
+hardware to ensure stability, avoiding the risk of potential downtime but leading to massive
+resource waste\cite{patterson2021carbonemissionslargeneural}. Current simulators also fail to model
+the "system-level" components of training, specifically Checkpointing mechanisms (saving model
+states to disk in case of failure) and gradient synchronization (network communication between
+clusters). Recent surveys insidate that 30-40\% of training time can be lost due to these overheads
+if not optimized, but standard simulators still treat them as negligible\cite{xu2024efficient,
+zhang2025gockptgradientassistedmultistepoverlapped}.\medskip \\ Key prior work relies on the
+"Scaling Laws" of Neural Networks\cite{kaplan2020scalinglawsneurallanguage}, which which predict
+the raw compute requirements for training models based on their size. To meet these demands,
+industry has adopted distributed training systems like
+Megatron-LM\cite{narayanan2021efficientlargescalelanguagemodel}, which split the workload across
+thousands of GPUs. In the field of simulation, tools like OpenDC\cite{9499454} and ASTRA-sim have
+successfully modeled general cloud and network behaviors. Still, a gap remains: recent
+surveys\cite{dryden2025survey} and production traces\cite{lin2025stragglers} show that current
+simulators fail to account for the "system-level" friction of training, specifically the massive
+overheads of checkpointing and synchronization. This is a critical gap, as existing tools cannot
+accurately predict the true energy and financial impact of large-scale training workloads.\medskip
+\\So this leads us to the main research question: \textbf{How can we utilize discrete-event
+simulation to determine the cost-optimal and energy-optimal homogeneous cluster configuration for
+training Large Language Models?} This will become the first open-source LLM Training Workload Model
+for OpenDC that specifically accounts for reliability overheads like checkpointing and gradient
+synchronization. Allowing researchers to study "Green AI" infrastructure without needing access to
+supercomputers to do these experiments. This project will contribute to the scientific community by
+providing a new tool for simulating LLM training, enabling more efficient and sustainable AI
+development. It will also help me develop my skills in simulation, distributed systems, and AI,
+preparing me for a career in this rapidly evolving field.\medskip \\
 
-Explain the research project. Also include here the personal value you hope to derive from this project.
-
-Explain at least:
-\begin{enumerate}
-    \item The context of this research project. How broad do you see the impact of a good result? (Will you change the world? The science of Europe? The industry of the Netherlands?)
-    
-    \item The key terms addressed in this research project. You will expand on this element in Section~\ref{sec:background}.
-    
-    \item The main problem addressed in this research project. You will expand on this element in Section~\ref{sec:problem}.
-    
-    \item The key prior work related to this research project. You will expand on this element in Section~\ref{sec:related}.
-    
-    \item The main research question, possibly paraphrased. You will expand on this element in Section~\ref{sec:researchq}. (If possible, also indicate the core of the approach, or an insight that can lead to it. You will expand on this element in Section~\ref{sec:approach}.)
-    
-    \item The expected contribution of this research, for the scientific community and/or for your employer. You will expand on this element in Sections~\ref{sec:researchq}, \ref{sec:approach}, and~\ref{sec:plan}.
-    
-    \item Expected contribution of this research, for yourself. How will this project develop you? How will it develop your career?
-    
-\end{enumerate}
-
-For example, consider the project leading to publication~\cite{DBLP:conf/sc/AndreadisVMI18}:
-\begin{enumerate}
-    \item Context: datacenters, the backbone of cloud computing and our digital economy.
-    \item Key terms: datacenters, scheduling, reference architecture.
-    \item Problem: understanding and improving the process of scheduling in datacenters.
-    \item Key prior work: research on scheduling in large-scale systems, scheduling practices in Big Tech companies (Google, Microsoft, Alibaba, etc.)
-    \item Main research question: How to design a good abstraction for datacenter scheduling? Key insight: a unified reference architecture is a good  abstraction for the scheduling process.
-    \item Expected contribution, community: a survey, a reference architecture, an analysis of existing systems as mapped to the new reference architecture, a simulator implementing the reference architecture as the scientific instrument, experiments in simulation, description of a process for others to use the reference architecture, analysis of threats to validity. 
-    Plus: a technical report accompanying the publication\footnote{The technical report is published as open science: \url{https://arxiv.org/pdf/1808.04224.pdf}}, various public talks, etc. (The team also went for and obtained the ACM reproducibility badge, which among others requires publishing FOS software and FAIR data.)
-    \item Expected contribution, personal: development into an independent researcher.
-\end{enumerate}
+% Explain the research project. Also include here the personal value you hope to derive from this
+% project.
+%
+% Explain at least:
+% \begin{enumerate}
+% 	\item The context of this research project. How broad do you see the impact of a good result?
+% 	      (Will you change the world? The science of Europe? The industry of the Netherlands?)
+%
+% 	\item The key terms addressed in this research project. You will expand on this element in
+% 	      Section~\ref{sec:background}.
+%
+% 	\item The main problem addressed in this research project. You will expand on this element in
+% 	      Section~\ref{sec:problem}.
+%
+% 	\item The key prior work related to this research project. You will expand on this element in
+% 	      Section~\ref{sec:related}.
+%
+% 	\item The main research question, possibly paraphrased. You will expand on this element in
+% 	      Section~\ref{sec:researchq}. (If possible, also indicate the core of the approach, or an
+% 	      insight that can lead to it. You will expand on this element in
+% 	      Section~\ref{sec:approach}.)
+%
+% 	\item The expected contribution of this research, for the scientific community and/or for your
+% 	      employer. You will expand on this element in Sections~\ref{sec:researchq},
+% 	      \ref{sec:approach}, and~\ref{sec:plan}.
+%
+% 	\item Expected contribution of this research, for yourself. How will this project develop you?
+% 	      How will it develop your career?
+%
+% \end{enumerate}
+%
+% For example, consider the project leading to publication~\cite{DBLP:conf/sc/AndreadisVMI18}:
+% \begin{enumerate}
+% 	\item Context: datacenters, the backbone of cloud computing and our digital economy.
+% 	\item Key terms: datacenters, scheduling, reference architecture.
+% 	\item Problem: understanding and improving the process of scheduling in datacenters.
+% 	\item Key prior work: research on scheduling in large-scale systems, scheduling practices in
+% 	      Big Tech companies (Google, Microsoft, Alibaba, etc.)
+% 	\item Main research question: How to design a good abstraction for datacenter scheduling? Key
+% 	      insight: a unified reference architecture is a good abstraction for the scheduling
+% 	      process.
+% 	\item Expected contribution, community: a survey, a reference architecture, an analysis of
+% 	      existing systems as mapped to the new reference architecture, a simulator implementing
+% 	      the reference architecture as the scientific instrument, experiments in simulation,
+% 	      description of a process for others to use the reference architecture, analysis of
+% 	      threats to validity. Plus: a technical report accompanying the publication\footnote{The
+% 	      technical report is published as open science:
+% 	      \url{https://arxiv.org/pdf/1808.04224.pdf}}, various public talks, etc. (The team also
+% 	      went for and obtained the ACM reproducibility badge, which among others requires
+% 	      publishing FOS software and FAIR data.)
+% 	\item Expected contribution, personal: development into an independent researcher.
+% \end{enumerate}

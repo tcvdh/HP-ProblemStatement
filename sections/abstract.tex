@@ -1,6 +1,19 @@
 \section*{Abstract}
 
-The training of Large Language Models (LLMs) has evolved into a massive industrial operation hello
-asdf asdf asdf asdlfjasdlkf jklasdf jklas dfjklas djfklas jfklas jfklasd jf
+The training of Large Language Models (LLMs) has evolved into a massive industrial operation, where
+single training runs are costing tens of millions of dollars and consuming gigawatt-hours of
+energy. As models scale from billions to trillions of parameters, the financial and environmental
+sustainability of AI is becoming a critical and global challenge. Datacenters training these kinds
+of massive LLMs rely currently on a "good enough" human judgment or massive over-provisioning to
+manage these workloads, leading to significant inefficiencies in capital and energy use. Simulation
+offers a way to optimize these systems without the cost of physical experimentation. However,
+state-of-the-art simulators like OpenDC currently lack the specialized workload models required to
+accurately capture the non-functional properties of modern LLM training loops, such as gradient
+synchronization latency and checkpointing overheads. \medskip \\ This report proposes to bridge
+this gap by developing a parametric LLM training workload model for OpenDC. We aim to simulate the
+cost and energy trade-offs of training on homogeneous clusters, enabling datacenter operators to
+identify the best possible configuration where performance is maximized before diminishing returns
+and excessive carbon emissions set in.
 
-\section {intro}
+\section* {Keywords}
+Large Language Models, LLMs, Simulation, Datacenter, Cost-Energy

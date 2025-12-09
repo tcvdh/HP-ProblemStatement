@@ -1,5 +1,6 @@
+onlyOneBackUp: 1
+preserveBlankLines: 1
 modifyLineBreaks:
   textWrapOptions:
     columns: 100
     when: after
-  preserveBlankLines: 1
