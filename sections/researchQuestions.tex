@@ -1,17 +1,46 @@
 
-\section{Research Question(s)} \label{sec:researchq}
+\section{Research Question(s)}
+This project will focus on \textbf{How can we utilize discrete-event simulation to determine the
+cost-optimal and energy-optimal homogeneous cluster configurations for training Large Language
+Models?}. We focus specifically on the Training phase of LLMs, excluding inference, as training
+represents the most capital-intensive and critical bottleneck for infrastructure planning. We
+constrain our research to Homogeneous Clusters (identical GPUs and network topology), which is the
+industry standard for minimizing hardware-induced latency. Within this scope, we will focus on
+modelling the "System-level" non-functional properties, specifically Checkpointing Overhead and
+Gradient Synchronization, rather than low-level chip microarchitecture. We use the OpenDC simulator
+as our experimental platform.
 
-Explain in this section the core research of the project. The goal is to show that the research is sufficiently balanced and broad. See also Sections~I and the short formulations (e.g., ``we investigate...'') in the following sections of~\cite{DBLP:conf/sc/AndreadisVMI18}. 
+\subsection{RQ1: How can we model the non-functional properties of LLM training workloads, specifically
+	gradient synchronization latency and checkpointing I/O bursts, for discrete-event simulation}
 
-Notes:
-\begin{enumerate}
-\item 
-Formulate the main research question. 
+This research question aims to first abstract the complex reality of a distributed job into a
+smaller mathematical model that defines its key performance characteristics. We need to do this
+because existing simulators treat jobs as generic units of compute duration and assume that
+small-scale node behavior is still correct when scaled up. This will fail to capture the massive
+efficiency losses from synchronization delays and checkpointing stalls that can occur at scale.
+This part is challenging because it first requires a deep understanding of the mechanics of the
+training process, and then simplifying these complex structures into a simple model without losing
+the key dynamics. We must accurately model the "software- stragglers" that occur even in
+homogeneous clusters.
 
-\item 
-Define the scope of the project. Typically, the scope of the project is much smaller than the scope of the problem (defined in Section~\ref{sec:problem}).
+\subsection{RQ2: How to implement this model within the OpenDC ecosystem to accurately measure power
+	consumption and throughput on homogeneous GPU clusters?}
 
-\item 
-Define detailed research questions. For each, explain at least: \textit{Why?}, \textit{Why important?}, and \textit{Why challenging?}
+A theoretical model is insufficient without a practical implementation. It must be validated within
+a simulation engine to run scenarios at a scale and collect accurate metrics. This will provide a
+reusable software tool for the scientific community, allowing researchers to study "Green AI"
+infrastructure without needing access to expensive supercomputers. OpenDC is primarily designed for
+cloud workloads (stateless requests). Extending it to support stateful, long-running training jobs
+requires a different logic for mechanisms for checkpointing and handling the complex
+synchronization patterns of training.
 
-\end{enumerate}
+\subsection{RQ3: What is the relationship between cluster size, checkpointing frequency, and training cost efficiency}
+To validate the model, we will run experiments verifying its accuracy and provide the "Precision
+Capacity Planning" from the title. We aim to identify the optimal configuration where adding more
+GPUs would yield diminishing returns due to increased synchronization overheads. This will answer
+the core societal and economic question of "Are we wasting money and energy by building clusters
+that are too big?" Operators currently lack the data to make these trade-off decisions, leading to
+over-provisioning and resource waste. It requires designing a good experimental setup that isolates
+the key variables to prove causality. We must also simulate the "What-if" scenarios of techniques
+like Gradient-Assisted Checkpointing to measure their potential benefits at larger scale (over
+10,000 GPUs) that has never been tested before in an actual cluster.

@@ -1,13 +1,36 @@
 
-\section{Problem} \label{sec:problem}
+\section{Problem}
+We identified a critical gap in the current simulation tools: \textbf{There is no accessible
+instrument to accurately predict the cost-efficiency and energy impact of LLM training
+configurations on homogeneous clusters}. While there is a growing body of research that has focused
+on Model Optimization, reducing computational complexity by up to 35\% through techniques like
+sparse training and quantization\cite{10.5120/ijca2025925323}, far less attention has been given to
+System Optimization. Even with highly compressed models, the infrastructure overheads of fault
+tolerance and synchronization persist. Current simulators often focus on the former (compute time)
+while ignoring the latter (system-level overheads), creating a blind spot in energy estimation.
+Specifically, we identify the following issues:
+\begin{itemize}
+	\item \textbf{The Fallacy of Idealized Execution}: Existing simulators typically model training jobs
+	      under the assumption of idealized execution, treating homogeneous clusters as perfectly
+	      synchronized straggler free systems. This ignores the non-deterministic delays of 3D
+	      parallelism. As revealed from production traces, even in homogeneous clusters designed
+	      for stability, "software stragglers" (caused by uneven pipeline partitioning or garbage
+	      collection pauses) can cause the system to waste up to 45\% of its allocated GPU
+	      resources\cite{lin2025stragglers}. Current tools fail to capture these synchronization inefficiencies, leading to
+	      overly optimistic performance and energy estimates that mask real-world efficiency
+	      losses.
+	\item \textbf{Ignored Reliability Costs}:
+\end{itemize}
 
-Explain in this section the main problem addressed in this work. The goal is to emphasize the value of a research project that addresses the problem. See also Sections~I and~III.A of~\cite{DBLP:conf/sc/AndreadisVMI18}.
-
-Notes:
-\begin{enumerate}
-\item 
-Define the scope of the problem.
-
-\item
-Refer back to the background~(see Section~\ref{sec:background}) for key terms.
-\end{enumerate}
+% Explain in this section the main problem addressed in this work. The goal is to emphasize the value
+% of a research project that addresses the problem. See also Sections~I and~III.A
+% of.
+%
+% Notes:
+% \begin{enumerate}
+% 	\item
+% 	      Define the scope of the problem.
+%
+% 	\item
+% 	      Refer back to the background for key terms.
+% \end{enumerate}
