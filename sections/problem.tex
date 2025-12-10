@@ -19,18 +19,16 @@ Specifically, we identify the following issues:
 	      resources\cite{lin2025stragglers}. Current tools fail to capture these synchronization inefficiencies, leading to
 	      overly optimistic performance and energy estimates that mask real-world efficiency
 	      losses.
-	\item \textbf{Ignored Reliability Costs}:
+	\item \textbf{Ignored Reliability Costs}: Fault tolerance is mandatory for the month-long duration of training
+	      large LLMs on thousands of GPUs. However, the energy and time cost of Checkpointing is rarely modeled in
+	      planning tools. Data shows that standard asynchronous checkpointing can stall GPU computation for over
+	      1.3 seconds per save interval\cite{zhang2025gockptgradientassistedmultistepoverlapped}.
+	      In a large-scale cluster with frequent checkpoints, these delays accumulate, leading to a significant
+	      and unoptimized energy overhead that stays regardless of how optimized the model architecture itself is.
+	\item \textbf{The Absence of Multi-Objective Trade-off Analysis}: Due to it being almost impossible to predict these
+	      system-level overheads, operators are forced to rely on massive over-provisioning or guessing.
+	      There is a lack of research quantifying the trade-off between speed, money and carbon emissions.
+	      For example, slowing down training slightly to accommodate a more energy-efficient checkpointing
+	      schedule could save megawatt-hours of energy, but without a simulator to quantify this trade-off,
+	      these optimizations are considered too risky to attempt on live production hardware.
 \end{itemize}
-
-% Explain in this section the main problem addressed in this work. The goal is to emphasize the value
-% of a research project that addresses the problem. See also Sections~I and~III.A
-% of.
-%
-% Notes:
-% \begin{enumerate}
-% 	\item
-% 	      Define the scope of the problem.
-%
-% 	\item
-% 	      Refer back to the background for key terms.
-% \end{enumerate}
