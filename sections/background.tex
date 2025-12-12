@@ -28,11 +28,11 @@ pauses from garbage collection, can still cause a significant synchronization de
 These "software stragglers" can cause up to 45\% of allocated GPU resources to be wasted, even in
 clusters with identical hardware specification\cite{lin2025stragglers}.
 \subsection{Checkpointing and Fault Tolerance}
-Training runs take a very long time, often multiple weeks or months. In this period, hardware failures
-are statistically bound to happen. To make sure fault tolerance is effective, training systems
-implement checkpointing: The process of periodically pausing the computation to save the model's
-parameters and optimizer states to persistent storage (SSDs). Although this is necessary, this
-procedure introduces a significant Checkpointing Overhead. For every save operation, standard
+Training runs take a very long time, often multiple weeks or months. In this period, hardware
+failures are statistically bound to happen. To make sure fault tolerance is effective, training
+systems implement checkpointing: The process of periodically pausing the computation to save the
+model's parameters and optimizer states to persistent storage (SSDs). Although this is necessary,
+this procedure introduces a significant Checkpointing Overhead. For every save operation, standard
 asynchronous checkpointing can stop training for more than 1.3 seconds
 \cite{zhang2025gockptgradientassistedmultistepoverlapped}. In a large-scale cluster where saving
 occurs frequently to mitigate failure risks, these stalls represent a massive efficiency loss.
@@ -46,7 +46,8 @@ training run to test a new scheduling hypothesis. Discrete-Event Simulation (DES
 by modeling the system as a sequence of events in time. OpenDC\cite{9499454} is a state-of-the-art
 DES platform that has successfully modeled cloud datacenter workloads and serverless functions.
 However, current simulators often treat jobs as generic units of compute duration and assume that
-small-scale node behavior is still correct when scaled up\cite{dryden2025survey}. They lack the
-specific workload models required to simulate the internal dynamics of LLM training, specifically
-the network bursts of 3D parallelism and the I/O stalls of checkpointing, rendering them
-insufficient for precise capacity planning in the context of LLM training.
+small-scale node behavior is still correct when scaled
+up\cite{svedas2025surveyendtoendmodelingdistributed}. They lack the specific workload models
+required to simulate the internal dynamics of LLM training, specifically the network bursts of 3D
+parallelism and the I/O stalls of checkpointing, rendering them insufficient for precise capacity
+planning in the context of LLM training.

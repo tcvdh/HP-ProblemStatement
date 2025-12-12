@@ -1,51 +1,59 @@
+\section{Plan}
 
-\section{Plan} \label{sec:plan}
+For this project, i have planned about 40 weeks of work, completing by October 2026. The work is
+divided into four phases, aligned with the research questions defined in the previous sections.
 
-% Explain in this section how you expect to complete the parts defined in Section~\ref{sec:approach}. The goal is to show the work is feasible in the allocated time.
-%
-% Notes:
-% Notes:
-% \begin{enumerate}
-% \item 
-% Understand this is a preliminary plan.
-%
-% \item 
-% Try to define at least the large components of the project. To do this, discuss with the project supervisor and/or consult a good article published recently in the field. For the running example, consult~\cite{DBLP:conf/sc/AndreadisVMI18}.
-%
-% \item
-% Try to plan tasks with a granularity of at most one week, and ideally with a granularity of a day. Try to make the near-future tasks SMART. Plan tasks long into the future of the project as \textit{slack}. 
-%
-% \item
-% Try to attach milestones and key deliverables to the most important tasks. Make sure deliverables include the final report (or article) and at least one presentation (hopefully, in a major scientific venue).
-%
-% \item
-% Revisit the plans as soon as you complete a task, but especially after the first few tasks of a kind, e.g., a literature review task (you read a new article), a design iteration (you made or improved a design), an implementation task (you coded a new feature), an experiment task (you conducted one experiment).
-%
-% \end{enumerate}
-%
-%
-% For the running example, the research plan included:
-% \begin{verbatim}
-% ```
-% I plan to take the first two research questions in one step, since
-% they are closely related:
-%
-% To build a representative abstraction, I need to survey the 
-% existing approaches in the field. This way, the validation step 
-% is combined with the design step. This combined stage I
-% intend to work on in the coming three months, and 
-% have a first report on my results ready by late January 2017.
-%
-% After this stage is completed, I will begin integrating it in the
-% OpenDC project [n.b., the simulator].
-% Because I can imagine that this step will take a 
-% substantial amount of time,  I plan to have produced a first, 
-% full prototype of this integration by May 2017.
-%
-% I will try to keep the paper writing process parallel to 
-% these two stages as much as possible. However, knowing that 
-% this is difficult, I am allocating the time from June to
-% July of 2017 to tie together the pieces and get 
-% this paper ready for publication.
-% ```
-% \end{verbatim}
+\subsection{Phase 1: RQ1 - Definition and modeling (weeks 1-8)}
+This phase will result in a finalized mathematical workload specification and a completed
+literature review chapter.
+\begin{itemize}
+	\item \textbf{Weeks 1-2 (Literature Review):} Set up the OpenDC codebase to get familiar with the
+	      simulator and create a local experiment to understand how ti works. Conduct a literature
+	      review on Scaling laws for LLMs, to gather the mathematical formulas needed for compute
+	      requirements.
+	\item \textbf{Weeks 3-5 (Literature Review):} Analyze the recent systems papers (GoCkpt, Byte Dance) to
+	      extract formulas for I/O latency and model the "Software Stragglers" in the homogeneous
+	      clusters.
+	\item \textbf{Weeks 6-8(Model Formalization):} Synthesize findings into a draft "Parametric LLM Workload
+	      Model" specification. Formalize the mathematical equations for "Gradient Synchronization"
+	      and "Checkpointing Overhead".
+\end{itemize}
+\subsection{Phase 2: RQ2 - Design and Implementation (weeks 9-20)}
+This phase will result in a functional OpenDC prototype implementation capable of simulating a full
+training run.
+\begin{itemize}
+	\item \textbf{Weeks 9-10 (Architecture Design):} Analyze the OpenDC workload interface and design the
+	      class hierarchy for SyntheticLLMWorkload.
+	\item \textbf{Weeks 11-14 (Core Logic Implementation):} Implement the basic compute logic (duration
+	      based on FLOPs) and 3D parallelism, which simulates the data/tensor /pipeline stages.
+	\item \textbf{Weeks 15-18 (Overhead Logic Implementation):} Implement the Gradient Synchronization
+	      barrier logic and the checkpointing logic (I/O stall events based on the waste formulas).
+	      Run initial validation experiment with a small dummy cluster to verify it's stable.
+	\item \textbf{Weeks 19-20 (Refinement):} Refine the code for performance and work on the documentation
+	      for the API.
+\end{itemize}
+\subsection{Phase 3: RQ3 - Validation and Experimentation (Weeks 21-32)}
+This phase will result in a complete dataset of experimental results and finalized charts.
+\begin{itemize}
+	\item \textbf{Weeks 21-23 (Validation Experiments):} Configure the simulator to match the hardware
+	      specifications of the BLOOM training cluster. Run simulations to compare energy/duration
+	      against the public logs and calibrate the model parameters accordingly.
+	\item \textbf{Weeks 24-27 (Experimentation and Execution):} Design and execute the full factorial
+	      experiment. Run batches for a baseline asynchronous checkpointing run and an optimized
+	      Gradient-Assisted Checkpointing run, using clusters of variable sizes (128 to 16,384
+	      GPUs).
+	\item \textbf{Weeks 28-32 (Data Processing):} Process raw output logs into usable datasets. Generate
+	      initial visualizations like charts of throughput vs cluster size and advanced plots for
+	      cost vs energy.
+\end{itemize}
+\subsection{Phase 4: Analysis and Writing (Weeks 33-40)}
+\begin{itemize}
+	\item \textbf{Weeks 33-35 (Drafting Results):} Draft the Methodology, Implementation and Results
+	      chapters. Get started on a Discussion and Conclusion, focussing on the societal impact of
+	      energy efficiency.
+	\item \textbf{Weeks 36-37 (Review and Revision):} Submit the first full draft to supervisors and
+	      revise the document based on feedback.
+	\item \textbf{Weeks 38-40 (Final polishing):} Finalize formatting and references. Prepare the final presentation slides.
+	\item \textbf{Week 40 (Submission):} Submit the final thesis document.
+\end{itemize}
+

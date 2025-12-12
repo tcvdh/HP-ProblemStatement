@@ -1,17 +1,44 @@
+\section{Approach}
 
-\section{Approach} \label{sec:approach}
+In this section, we will outline the approach needed to address the research questions posed in the
+previous section. Each research question is based on the previous question. Thus, we will first
+address RQ1, then RQ2, and finally RQ3.
+\subsection{RQ1: Workload Characterization (Modeling)}
+To define the LLM training workload and its characteristics, we will synthesize a Parametric
+Performance model. To obtain this model, we will perform a literature review and analyze real-world
+performance traces from data centers. With these traces, we will identify key performance metrics
+and patterns that are representative of the LLM training workload. Using this information, we will
+develop a parametric model that captures the essential characteristics of the workload. We will
+extend this model to include the "Wasted Time" equations, which mathematically represent the
+latency of checkpointing as a function of bandwidth and frequency. A formal Mathematical
+specification of a training job will be the outcome of this research question, that will also
+define when computation pauses and how long synchronization takes, ready for simulation.
 
-% Explain in this section how you anticipate you can answer the question(s) formulated in Section~\ref{sec:researchq}. The goal is to show that the research is feasible. For this reason, this section is mainly methodological; the pragmatic plans on how to complete all this work follow, in Section~\ref{sec:plan}. See, for example, Sections~I (overview) and~V.A (experiment design) of~\cite{DBLP:conf/sc/AndreadisVMI18}.
-%
-% Notes:
-% \begin{enumerate}
-% \item 
-% Describe the approach, for each research question. Emphasis on method(s) -- What? Expected contribution.
-%
-% \item 
-% Introduce intuition about the key innovation and/or conceptual contribution.
-%
-% \item 
-% Try to explain why the approach would work. Explain the expected technical contribution.
-%
-% \end{enumerate}
+\subsection{RQ2: Integration into OpenDC (Implementation)}
+The implementation phase will focus on translating the mathematical model into the OpenDC simulator
+codebase. We will extend the OpenDC interface to add the LLM training workload as a new type of
+workload that can be simulated. This will involve converting the formal definitions of "Wasted
+Time" and gradient synchronization into executable code within the OpenDC workload interface. We
+will implement a SyntheticLLMWorkload class that dynamically calculates resource demands based on
+high-level inputs, such as model parameter count and cluster size, rather than static traces. To
+ensure the accuracy of this implementation, we will verify the simulator's behavior and output
+against known truth logs from open-source training runs (BLOOM as example), ensuring that our
+synthetic model accurately reproduces real-world energy and performance metrics.
+
+\subsection{RQ3: Experimental evaluation}
+To evaluate the trade-offs between cluster scale and efficiency, we will conduct a factorial design
+experiment. We will simulate a fixed training workload across a spectrum of Homogeneous Cluster
+configurations, varying the node count from 128 to 16,384 GPUs. We will also check some "What-If"
+scenarios and see how a standard asynchronous checkpointing stacks up against an optimized
+Gradient-Assisted Checkpointing technique. This experimental setup allows up to isolate the impact
+of synchronization overheads, resulting in the data needed to quantify the precise energy cost of
+fault tolerance at scale.
+
+\subsection*{Validation and Analysis}
+To interpret and validate the experimental data, we will perform a trade-off analysis. In this
+analysis, we will plot the simulation results to visualize the most efficient cluster configuration
+for time to completion, total energy consumption and capital costs. By quantifying the relationship
+between cluster size and efficiency losses, we will derive concrete capacity planning guidelines.
+This analysis aims to demonstrate how a system-level optimization can yield significant
+energy-savings, giving a scientific basis for more sustainable infrastructure design.
+

@@ -1,15 +1,46 @@
 
 \section{Related Work}
-%
-% Explain in this section related work on the problem explained in Section~\ref{sec:problem}. The goal is to emphasize the extent and the key elements of related work. 
-% See also Sections~I and~VII of~\cite{DBLP:conf/sc/AndreadisVMI18}.
-%
-% Notes:
-% \begin{enumerate}
-% \item 
-% At this stage of your research career, this part will include a brief survey of the state-of-the-art, guided by the project supervisor. 
-%
-% \item 
-% Review and summarize the related work. What is known already? What should be known but isn't? 
-%
-% \end{enumerate}
+Numerous studies have explored the challenges and solutions associated with training large language
+models (LLMs) in distributed computing environments. However, there is a notable gap in the
+literature regarding the simulation of LLM training workloads on homogeneous clusters, particularly
+int he context of energy efficiency and fault tolerance. In this section we review the related work
+that is highly relevant to our research.
+
+\subsection{Training Performance Modeling}
+Several works have focused on modeling the performance of distributed training workloads. Early
+analytical models, such as the scaling laws proposed by Kaplan et al.
+\cite{kaplan2020scalinglawsneurallanguage}, showed the relationship between model size, dataset
+size, and compute requirements (FLOPs). However, these models go by idealized hardware conditions
+for execution and fail to account for system-level inefficiencies. Other studies have focused on
+trace simulations to capture these behaviors, for example, Lumos
+\cite{liang2025lumosefficientperformancemodeling} uses execution traces to predict training time
+with high accuracy (3.3\% error) by modeling the computation and communication dependencies. Echo
+\cite{feng2024echosimulatingdistributedtraining} simulates distributed training at scale by tracing
+runtime workloads and estimating the combined communication overheads. While this approach works
+good for performance prediction, these approaches treat reliability overheads as negligible,
+completely ignoring the impact of these fault tolerance mechanisms on total job duration.
+\subsection{Infrastructure and Fault Tolerance}
+Distributed training needs to be reliable, especially at scale. This reliability though, is often a
+major bottleneck for LLM training. As models scale to thousands of GPUs, hardware failures are
+statistically bound to happen during long training runs. So this process always requires robust
+fault tolerance mechanisms. The standard approach to this is Checkpoint/Restart (C/R), which
+periodically saves the model state to persistent storage. However, this process introduces
+significant I/O overhead. Recent studies like GoCkpt
+\cite{zhang2025gockptgradientassistedmultistepoverlapped} and FlowCheck \cite{Huang2025flowcheck}
+have proposed techniques to lessen this cost, such as gradient-assisted checkpoints and
+asynchronous state saving. System-level analyses from ByteDance \cite{lin2025stragglers} and meta
+\cite{zhang2022optopenpretrainedtransformer} show that "stragglers", slow nodes caused by software
+congestion or hardware issues, can waste up to 45\% of cluster resources. Despite these papers,
+most simulators do not yet have the capability to simulate these stragglers using models or
+simulate the complex I/O bursts associated with checkpointing, leading to unrealistic energy and
+performance estimates.
+\subsection{Simulation Gaps}
+a survey of end-to-end training simulators \cite{svedas2025surveyendtoendmodelingdistributed}
+showed a critical gap in the firld: current tools focus on computation and communication while
+forgetting the checkpointing mechanisms and fault recovery procedures. While hardware-centric
+simulators like ASTRA-sim \cite{won2023astrasim} provide cycle accurate modeling of network
+collectives, they are often too low level for long term capacity planning. On the other hand, high
+level cloud simulators like OpenDC \cite{9499454} excel at resource management but lack the
+specific workload models for stateful, synchronous AI training. This research aims to bridge this
+gap by integrating a reliability-aware workload model into OpenDC, being the first simulation of
+the cost-energy trade-offs in fault tolerance LLM training.

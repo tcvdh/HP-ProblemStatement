@@ -1,4 +1,11 @@
+\section{Conclusion}
 
-\section{Conclusion} \label{sec:conclusion}
-
-% Revisit the context, problem statement, related work, and research design. See, for example, Section~VIII of~\cite{DBLP:conf/sc/AndreadisVMI18}.
+In conclusion, this project aims to develop a comprehensive simulation framework for evaluating the
+energy efficiency of large language model (LLM) training workloads in homogeneous clusters. We
+identified a clear gap in simulating the training phrase of LLM lifecycles. By developing a
+specialized workload model for OpenDC, we move beyond generic abstractions to capture the precise
+friction of 3D parallelism and Checkpointing Overhead. Integrating mathematical models of
+synchronization latency and real-world straggler effects allows us to simulate the behavior of
+homogeneous clusters. This research provides the first open-source instrument capable of quantifying
+the trade offs between speed, cost and carbon emissions for LLM training, ensuring that future AI systems can be
+deployed sustainably at scale with the most efficient use of resources.
